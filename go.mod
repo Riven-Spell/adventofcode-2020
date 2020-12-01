@@ -1,4 +1,4 @@
-module github.com/Virepri/adventofcode-2019
+module github.com/Virepri/adventofcode-2020
 
 go 1.13
 

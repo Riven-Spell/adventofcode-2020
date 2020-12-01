@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/Virepri/adventofcode-2019/solutions"
-	"github.com/Virepri/adventofcode-2019/util"
+	"github.com/Virepri/adventofcode-2020/solutions"
+	"github.com/Virepri/adventofcode-2020/util"
 	"os"
 	"regexp"
 	"strconv"
