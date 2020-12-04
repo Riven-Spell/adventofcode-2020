@@ -4,23 +4,23 @@ import (
 	"math"
 )
 
-type Point struct {
+type Vector2D struct {
 	X, Y int64
 }
 
-func (p Point) Add(p2 Point) Point {
-	return Point{X: p2.X + p.X, Y: p2.Y + p.Y}
+func (p Vector2D) Add(p2 Vector2D) Vector2D {
+	return Vector2D{X: p2.X + p.X, Y: p2.Y + p.Y}
 }
 
-func (p Point) Sub(p2 Point) Point {
-	return Point{X: p.X - p2.X, Y: p.Y - p2.Y}
+func (p Vector2D) Sub(p2 Vector2D) Vector2D {
+	return Vector2D{X: p.X - p2.X, Y: p.Y - p2.Y}
 }
 
-func Manhattan(p1, p2 Point) int64 {
+func Manhattan(p1, p2 Vector2D) int64 {
 	return IntAbs(p2.X - p1.X) + IntAbs(p2.Y - p1.Y)
 }
 
-func Slope(p1, p2 Point) Fraction {
+func Slope(p1, p2 Vector2D) Fraction {
 	f := Fraction{Numerator: p2.Y - p1.Y, Denominator: p2.X - p1.X}.Simplify()
 
 	if f.Numerator == 0 {
@@ -35,8 +35,8 @@ func Slope(p1, p2 Point) Fraction {
 }
 
 type DistSorter struct {
-	Center Point
-	List []Point
+	Center Vector2D
+	List   []Vector2D
 }
 
 func (s *DistSorter) Len() int {

@@ -30,11 +30,11 @@ func main() {
 			packetStart := time.Now()
 			for k,v := range solutions.RegisteredDays {
 				if v.ExpectedOutputs[0] != "norun" {
-					v.DummyInput.Prepare(*v.StringInput)
+					v.Solution.Prepare(*v.StringInput)
 
-					t := time.Now()           // current time
-					o := v.DummyInput.Part1() // output
-					tx := time.Now().Sub(t)   // runtime
+					t := time.Now()         // current time
+					o := v.Solution.Part1() // output
+					tx := time.Now().Sub(t) // runtime
 
 					fmt.Println("Day " + strconv.Itoa(k+1) + " Part 1 (runtime: " + tx.String() + ")")
 					if v.ExpectedOutputs[0] != "disabled" {
@@ -48,9 +48,9 @@ func main() {
 
 				if v.ExpectedOutputs[1] != "norun" {
 					// Reset the input
-					v.DummyInput.Prepare(*v.StringInput)
+					v.Solution.Prepare(*v.StringInput)
 					t := time.Now()
-					o := v.DummyInput.Part2()
+					o := v.Solution.Part2()
 					tx := time.Now().Sub(t)
 
 					fmt.Println("Day " + strconv.Itoa(k+1) + " Part 2 (runtime: " + tx.String() + ")")
@@ -89,14 +89,14 @@ func main() {
 				dataset = true
 			}
 
-			daysolution.DummyInput.Prepare(*daysolution.StringInput)
+			daysolution.Solution.Prepare(*daysolution.StringInput)
 			fmt.Println("Running day", day)
 
 			switch part {
 			case 0:
 				if daysolution.ExpectedOutputs[0] != "norun" {
 					t := time.Now()
-					o := daysolution.DummyInput.Part1()
+					o := daysolution.Solution.Part1()
 					tx := time.Now().Sub(t)
 
 					fmt.Println("Part 1 (runtime: " + tx.String() + ")")
@@ -110,10 +110,10 @@ func main() {
 				}
 
 				if daysolution.ExpectedOutputs[1] != "norun" {
-					daysolution.DummyInput.Prepare(*daysolution.StringInput) // Some days modify their input.
+					daysolution.Solution.Prepare(*daysolution.StringInput) // Some days modify their input.
 
 					t := time.Now()
-					o := daysolution.DummyInput.Part2()
+					o := daysolution.Solution.Part2()
 					tx := time.Now().Sub(t)
 
 					fmt.Println("Part 2 (runtime: " + tx.String() + ")")
@@ -127,7 +127,7 @@ func main() {
 				}
 			case 1:
 				t := time.Now()
-				o := daysolution.DummyInput.Part1()
+				o := daysolution.Solution.Part1()
 				tx := time.Now().Sub(t)
 
 				fmt.Println("Part 1 " + util.TernaryString(daysolution.ExpectedOutputs[0] != "norun", "(runtime: " +  tx.String() + ")", ""))
@@ -138,7 +138,7 @@ func main() {
 				}
 			case 2:
 				t := time.Now()
-				o := daysolution.DummyInput.Part2()
+				o := daysolution.Solution.Part2()
 				tx := time.Now().Sub(t)
 
 				fmt.Println("Part 2 " + util.TernaryString(daysolution.ExpectedOutputs[1] != "norun", "(runtime: " +  tx.String() + ")", ""))
