@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"github.com/Virepri/adventofcode-2019/util"
+	"github.com/Virepri/adventofcode-2020/util"
 	chk "gopkg.in/check.v1"
 )
 
