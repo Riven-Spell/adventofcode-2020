@@ -1,7 +1,6 @@
 package solutions
 
 import (
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -38,8 +37,6 @@ func (s *Day4Solution) Prepare(input string) {
 			}
 		}
 	}
-
-	fmt.Println("")
 }
 
 func (s *Day4Solution) Part1() string {
