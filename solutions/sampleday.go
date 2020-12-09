@@ -1,9 +1,9 @@
 package solutions
 
 /*
-type SampleDayInput struct{}
+type DayXSolution struct{}
 
-func (s *SampleDayInput) Prepare(input string) {}
-func (s *SampleDayInput) Part1() string {}
-func (s *SampleDayInput) Part2() string {}
+func (s *DayXSolution) Prepare(input string) {}
+func (s *DayXSolution) Part1() string {}
+func (s *DayXSolution) Part2() string {}
 */
