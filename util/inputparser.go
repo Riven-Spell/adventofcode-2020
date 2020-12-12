@@ -17,3 +17,10 @@ func ParseInts(s string) []int64 {
 
 	return out
 }
+
+func MustParseInt(s string) int64 {
+	n, err := strconv.ParseInt(s, 10, 64)
+	PanicIfErr(err)
+
+	return n
+}

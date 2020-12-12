@@ -1,7 +1,6 @@
 package solutions
 
 import (
-	"fmt"
 	"github.com/Virepri/adventofcode-2020/util"
 	"strconv"
 	"strings"
@@ -35,7 +34,6 @@ func (s *Day8Solution) Part1() string {
 	seenInstructions := make(map[int64]bool)
 
 	for _, ok := seenInstructions[s.cpu.ExecutionHead]; !ok; _, ok = seenInstructions[s.cpu.ExecutionHead] {
-		fmt.Println(s.cpu.ExecutionHead, s.cpu.Accumulator)
 		seenInstructions[s.cpu.ExecutionHead] = true
 
 		s.cpu.Step()

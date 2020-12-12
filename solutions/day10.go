@@ -1,7 +1,6 @@
 package solutions
 
 import (
-	"fmt"
 	"github.com/Virepri/adventofcode-2020/util"
 	"sort"
 	"strconv"
@@ -35,25 +34,10 @@ func (s *Day10Solution) Part1() string {
 	diffs := make(map[int]int64)
 
 	last := int64(0)
-	for k,v := range s.adapters {
+	for _,v := range s.adapters {
 		diffs[int(v - last)]++
-
-		fmt.Println(k, v, last, v - last)
-
-		//for _, a2 := range s.adapters[k+1:] {
-		//	if a2 - last > 3 {
-		//		break
-		//	}
-		//
-		//	fmt.Println("SUBADAPTATION", a2, last, a2 - last)
-		//
-		//	diffs[int(a2 - last)]++
-		//}
-
 		last = v
 	}
-
-	fmt.Println(diffs)
 
 	return strconv.FormatInt(diffs[1] * (diffs[3] + 1), 10)
 }
