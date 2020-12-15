@@ -24,3 +24,10 @@ func MustParseInt(s string) int64 {
 
 	return n
 }
+
+func MustParseUint(s string) uint64 {
+	n, err := strconv.ParseUint(s, 10, 64)
+	PanicIfErr(err)
+
+	return n
+}
