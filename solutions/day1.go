@@ -11,7 +11,7 @@ type Day1Solution struct {
 }
 
 func (s *Day1Solution) Prepare(input string) {
-	s.input = util.ParseInts(input)
+	s.input = util.ParseInts(input, "\n")
 }
 
 func (s *Day1Solution) Part1() string {

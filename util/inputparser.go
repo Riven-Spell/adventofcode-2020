@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func ParseInts(s string) []int64 {
-	splits := strings.Split(s, "\n")
+func ParseInts(s, delimiter string) []int64 {
+	splits := strings.Split(s, delimiter)
 	out := make([]int64, len(splits))
 
 	var err error

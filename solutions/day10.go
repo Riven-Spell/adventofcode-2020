@@ -25,7 +25,7 @@ type Day10Solution struct {
 }
 
 func (s *Day10Solution) Prepare(input string) {
-	s.adapters = util.ParseInts(input)
+	s.adapters = util.ParseInts(input, "\n")
 	sort.Sort(s.adapters)
 }
 

@@ -18,7 +18,7 @@ func (s *Day9Solution) Prepare(input string) {
 	}
 
 	s.part1Solve = -1
-	s.dataStream = util.ParseInts(input)
+	s.dataStream = util.ParseInts(input, "\n")
 }
 
 func (s *Day9Solution) SUM2Valid(workingSet []int64, sum int64) [2]int64 {
