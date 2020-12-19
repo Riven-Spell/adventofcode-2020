@@ -11,7 +11,7 @@ type messageRule struct {
 	rule string // if == "", treat as subrules
 }
 
-func (mr messageRule) isValidP2(message string, rules []messageRule) []int {
+func (mr messageRule) isValid(message string, rules []messageRule) []int {
 	type internalState struct {
 		ruleIDX int
 		passed int
@@ -25,64 +25,51 @@ func (mr messageRule) isValidP2(message string, rules []messageRule) []int {
 
 			for len(states) > 0 {
 				passed := states[0].passed
-				//all
-				for k, idx := range ruleset[states[0].ruleIDX:] {
-					if passed >= len(message) {
-						// cull this state since it's bad
-						states = states[1:]
-						break
+				rule := rules[ruleset[states[0].ruleIDX]]
+				if passed >= len(message) {
+					// cull this state since it's bad
+					goto cull
+				}
+
+				if rule.rule != "" {
+					if message[passed] != rule.rule[0] {
+						//cull this one from the stack since it's bad
+						goto cull
 					}
 
-					rule := rules[idx]
+					passed++
 
-					if rule.rule != "" {
-						if message[passed] != rule.rule[0] {
-							//cull this one from the stack since it's bad
-							states = states[1:]
-							break
-						}
-
-						passed++
-
-						if k + states[0].ruleIDX == len(ruleset) - 1 {
-							// cull the state, add to validities
-							validities = append(validities, passed)
-							states = states[1:]
-							break
-						} else {
-							states[0].passed = passed
-							states[0].ruleIDX++
-							break
-						}
+					if states[0].ruleIDX == len(ruleset) - 1 {
+						// cull the state, add to validities
+						validities = append(validities, passed)
 					} else {
-						if counts := rule.isValidP2(message[passed:], rules); len(counts) > 0 {
-							if k + states[0].ruleIDX == len(ruleset) - 1 {
-								// cull this state, add to validities
-								for _,c := range counts {
-									validities = append(validities, c + passed)
-								}
-								states = states[1:]
-								break
-							} else {
-								// this rule is not the last, keep ticking.
-								for _,c := range counts {
-									states = append(states, internalState{
-										ruleIDX: states[0].ruleIDX + 1,
-										passed:  c + passed,
-									})
-								}
-
-								// cull the root state
-								states = states[1:]
-								break
+						states[0].passed = passed
+						states[0].ruleIDX++
+						goto noCull // keep handling the active state since this didn't split the stack at all.
+					}
+				} else {
+					if counts := rule.isValid(message[passed:], rules); len(counts) > 0 {
+						if states[0].ruleIDX == len(ruleset)-1 {
+							// cull this state, add to validities
+							for _, c := range counts {
+								validities = append(validities, c+passed)
 							}
 						} else {
-							// cull this one from the stack since it's bad
-							states = states[1:]
-							break
+							// this rule is not the last, keep ticking.
+							for _, c := range counts {
+								states = append(states, internalState{
+									ruleIDX: states[0].ruleIDX + 1,
+									passed:  c + passed,
+								})
+							}
 						}
 					}
 				}
+
+				// cull the state
+				cull:
+				states = states[1:]
+				noCull:
 			}
 		}
 
@@ -94,49 +81,6 @@ func (mr messageRule) isValidP2(message string, rules []messageRule) []int {
 		}
 
 		return []int{}
-	}
-}
-
-func (mr messageRule) isValid(message string, rules []messageRule) (valid bool, passed int) {
-	if mr.subrules != nil {
-		for _, ruleset := range mr.subrules {
-			//each rule in the ruleset needs to come back true for its section
-			passed := 0
-			allValid := true
-			for _, idx := range ruleset {
-				if passed >= len(message) {
-					// break, this is going too long.
-					allValid = false
-					break
-				}
-
-				rule := rules[idx]
-
-				if rule.rule != "" {
-					if message[passed] != rule.rule[0] {
-						allValid = false
-						break
-					}
-
-					passed++
-				} else {
-					if v, count := rule.isValid(message[passed:], rules); v {
-						passed += count
-					} else {
-						allValid = false
-						break
-					}
-				}
-			}
-
-			if allValid {
-				return allValid, passed
-			}
-		}
-
-		return false, 0
-	} else {
-		return message[0] == mr.rule[0], 1
 	}
 }
 
@@ -184,7 +128,7 @@ func (s *Day19Solution) Prepare(input string) {
 func (s *Day19Solution) Part1() string {
 	count := 0
 	for _,v := range s.messages {
-		if ok, used := s.rules[0].isValid(v, s.rules); ok && used == len(v) {
+		if validities := s.rules[0].isValid(v, s.rules); util.ArrayContains(validities, len(v)) {
 			count++
 		}
 	}
@@ -207,18 +151,8 @@ func (s *Day19Solution) Part2() string {
 		rule:     "",
 	}
 
-	containsInt := func(i []int, x int) bool {
-		for _,v := range i {
-			if v == x {
-				return true
-			}
-		}
-
-		return false
-	}
-
 	for _,v := range s.messages {
-		if validities := tmpRules[0].isValidP2(v, tmpRules); containsInt(validities, len(v)) {
+		if validities := tmpRules[0].isValid(v, tmpRules); util.ArrayContains(validities, len(v)) {
 			count++
 		}
 	}
