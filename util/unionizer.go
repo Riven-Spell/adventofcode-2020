@@ -10,6 +10,30 @@ func (u *Unionizer) Len() int {
 	return len(u.items)
 }
 
+func (u *Unionizer) JoinUnions(u2 Unionizer) Unionizer {
+	out := Unionizer{}
+
+	// add existing unions and return
+	out.AddItems(u.GetUnion())
+	out.AddItems(u2.GetUnion())
+
+	return out
+}
+
+func (u *Unionizer) Contains(i interface{}) bool {
+	_, ok := u.items[i]
+
+	return ok
+}
+
+func (u *Unionizer) ForEach(each func(i interface{}) bool) {
+	for k, _ := range u.items {
+		if !each(k) {
+			break
+		}
+	}
+}
+
 func (u *Unionizer) GetUnion() []interface{} {
 	out := make([]interface{}, 0)
 

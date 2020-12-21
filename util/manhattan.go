@@ -31,10 +31,6 @@ func (p Vector2D) Mul(c int64) Vector2D {
 	return Vector2D{X: p.X * c, Y: p.Y * c}
 }
 
-func (p Vector2D) Rot90(deg int) Vector2D {
-	return Vector2D{}
-}
-
 func (p Vector2D) Rot(deg float64) Vector2D {
 	rads := deg * deg2Rad
 
